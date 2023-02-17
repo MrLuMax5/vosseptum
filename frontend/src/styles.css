@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.title-center {
+  margin: 0 auto;
+}
+
+.selection-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.checkbox-margin {
+  margin: 0 10px;
+}
+
+.cdk-overlay-pane {
+  width: fit-content !important;
+}
+
+.mat-select-panel {
+  max-width: unset !important;
+}
+
+.inner-box{
+  padding: 30px;
+  width: 70%;
+  float: left;
+}
+
+.middle-text {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-sizer {
+  width: 1000px;
+}
+
+.small-modal-sizer {
+  width: 300px;
+}
+
+.table-main-sizer {
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}

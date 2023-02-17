@@ -1,0 +1,35 @@
+<table mat-table [dataSource]="articles" class="mat-elevation-z8">
+  <!--  <caption>Table of all Connections of the user</caption>-->
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Author Column -->
+  <ng-container matColumnDef="authors">
+    <th mat-header-cell *matHeaderCellDef> Authors </th>
+    <td mat-cell *matCellDef="let element">
+      <p *ngFor="let author of element.authors">
+        {{author.email}}
+      </p>
+      <p *ngIf="!element.authors">
+        (anonymous)
+      </p>
+    </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="content">
+    <th mat-header-cell *matHeaderCellDef> Content </th>
+    <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+  </ng-container>
+
+  <!-- Report Column -->
+  <ng-container matColumnDef="reports">
+    <th mat-header-cell *matHeaderCellDef> View Reports </th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-button (click)="viewReportsForArticle(element.shortDescription, element.number)">View</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openArticleDialog(row)" class="mouse-clickable highlight-on-hover"></tr>
+</table>

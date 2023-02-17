@@ -1,0 +1,7 @@
+.mouse-clickable {
+  cursor: pointer;
+}
+
+.highlight-on-hover:hover {
+  background-color: antiquewhite!important;
+}

@@ -1,0 +1,24 @@
+<toolbar title="Home"></toolbar>
+
+<mat-grid-list cols="1" rowHeight="100px" >
+  <mat-grid-tile>
+    <button mat-raised-button (click)="fillData()">Fill database!</button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <p>Created entities: {{datafillResponse.entityCount}}.</p>
+    <p>Created bridges: {{datafillResponse.bridgeCount}}.</p>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button routerLink="/trustworthy">Most trustworthy Journalists</button>
+    <span class="small-padding"></span>
+    <button mat-raised-button routerLink="/popularity">Standings of Journalists</button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button routerLink="/register">Register</button>
+    <span class="small-padding"></span>
+    <button mat-raised-button routerLink="/login">Login</button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button mat-raised-button (click)="migrateData()">Migrate Data</button>
+  </mat-grid-tile>
+</mat-grid-list>

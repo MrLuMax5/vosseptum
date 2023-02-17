@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Create Report</h1>
+<div mat-dialog-content>
+  <h2>Grade</h2>
+  <mat-form-field appearance="fill">
+    <mat-label>Select Grade</mat-label>
+    <mat-select [(ngModel)]="reportData.report.grade" name="grade">
+      <mat-option *ngFor="let grade of grades" [value]="grade">{{grade}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <h2>Content</h2>
+  <mat-form-field appearance="fill" class="modal-sizer">
+    <mat-label>Edit Content</mat-label>
+    <textarea matInput cdkTextareaAutosize [(ngModel)]="reportData.report.content"></textarea>
+  </mat-form-field>
+  <h2>Authors</h2>
+  <div *ngFor="let author of reportData.report.authors">
+    <p>
+      <button mat-icon-button (click)="removeAuthor(author)" matTooltip="Remove Author">
+        <mat-icon aria-hidden="false" aria-label="remove icon" fontIcon="close"></mat-icon>
+      </button>
+      {{author.email}}
+    </p>
+  </div>
+  <div>
+    <mat-form-field appearance="fill" style="padding-right: 10px">
+      <mat-label>Add journalist</mat-label>
+      <mat-select [(ngModel)]="selectedJournalistToAdd" name="connection">
+        <mat-option *ngFor="let connection of reportData.connections" [value]="connection">{{connection.email}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button (click)="addJournalistToAuthors()">Add</button>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="reportData" cdkFocusInitial>Ok</button>
+</div>

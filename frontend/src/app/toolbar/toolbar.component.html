@@ -1,0 +1,12 @@
+<mat-toolbar>
+  <button *ngIf="isLoggedIn()" mat-button routerLink="/personal-site">Personal Site</button>
+  <mat-radio-group aria-label="select database" [(ngModel)]="useMongo" (change)="changeDatabase()">
+    <mat-radio-button [value]="false">Postgres</mat-radio-button>
+    <mat-radio-button [value]="true">MongoDB</mat-radio-button>
+  </mat-radio-group>
+  <span class="title-center">{{title}}</span>
+  <div style="padding-left: 180px">
+    <button mat-button (click)="logout()">Logout</button>
+    <button mat-button routerLink="/">Back Home</button>
+  </div>
+</mat-toolbar>

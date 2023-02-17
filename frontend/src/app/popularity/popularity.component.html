@@ -1,0 +1,35 @@
+<toolbar title="Standings of Journalists"></toolbar>
+
+<div class="table-main-sizer">
+  <strong class="middle-text">
+    Journalists with their average interested topics and average board budget
+  </strong>
+  <table mat-table [dataSource]="popularityResponse" class="mat-elevation-z8">
+    <!--  <caption>Table of all Connections of the user</caption>-->
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Journalist Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Journalist Email </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.email}}
+      </td>
+    </ng-container>
+
+    <!-- Popularity Column -->
+    <ng-container matColumnDef="avg_popularity">
+      <th mat-header-cell *matHeaderCellDef> Average Popularity </th>
+      <td mat-cell *matCellDef="let element">{{element.avg_popularity}}</td>
+    </ng-container>
+
+    <!-- Budget Column -->
+    <ng-container matColumnDef="avg_budget">
+      <th mat-header-cell *matHeaderCellDef> Average Budget </th>
+      <td mat-cell *matCellDef="let element">{{element.avg_budget}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

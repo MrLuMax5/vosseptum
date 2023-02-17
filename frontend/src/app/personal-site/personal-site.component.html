@@ -1,0 +1,36 @@
+<toolbar title="Personal Site of User with id '{{id}}'"></toolbar>
+<div class="outer-box">
+  <div>
+    <strong class="middle-text">
+      Your Connections
+      <button (click)="openConnectionDialog()">Add</button>
+    </strong>
+    <connection-table [connections]="connections"></connection-table>
+  </div>
+  <div style="padding-top: 30px">
+    <strong class="middle-text">
+      Your Topics
+      <button (click)="openTopicDialog()">Add</button>
+    </strong>
+    <topic-table [topics]="topics"></topic-table>
+  </div>
+  <div style="padding-top: 30px">
+    <strong class="middle-text">
+      Your Boards
+<!--      <button (click)="openConnectionDialog()">Add</button>-->
+    </strong>
+    <editorial-board-table [boards]="boards"></editorial-board-table>
+  </div>
+</div>
+<div class="inner-box">
+  <strong class="middle-text">
+    Recent Articles
+    <button (click)="openArticleDialog()">Add</button>
+  </strong>
+  <section class="selection-section">
+    <mat-checkbox class="checkbox-margin" [(ngModel)]="byPersonal" (ngModelChange)="onMultipleArticleSelectionChange()">Your Articles</mat-checkbox>
+    <mat-checkbox class="checkbox-margin" [(ngModel)]="byConnections" (ngModelChange)="onMultipleArticleSelectionChange()">Connection's Articles</mat-checkbox>
+    <mat-checkbox class="checkbox-margin" [(ngModel)]="byTopics" (ngModelChange)="onMultipleArticleSelectionChange()">Interested Topic's Articles</mat-checkbox>
+  </section>
+  <article-table [articles]="articles" [id]="id" [connections]="connections"></article-table>
+</div>

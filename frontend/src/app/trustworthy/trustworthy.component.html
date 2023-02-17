@@ -1,0 +1,29 @@
+<toolbar title="Most trustworthy journalists"></toolbar>
+
+<div class="table-main-sizer">
+  <strong class="middle-text">
+    By avg grade for articles
+  </strong>
+  <table mat-table [dataSource]="trustResponse" class="mat-elevation-z8">
+    <!--  <caption>Table of all Connections of the user</caption>-->
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="avgGrade">
+      <th mat-header-cell *matHeaderCellDef> Journalist </th>
+      <td mat-cell *matCellDef="let element">
+        {{element.journalist.email}}
+      </td>
+    </ng-container>
+
+    <!-- Grade Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Avg Grade </th>
+      <td mat-cell *matCellDef="let element">{{element.avgGrade}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

@@ -1,0 +1,74 @@
+version: "3.8"
+
+services:
+  quarkusService:
+    build:
+      context: .
+      dockerfile: Dockerfile.jvm
+    image: vosseptum-backend:latest
+    container_name: quarkusService
+    environment:
+      - QUARKUS_DATASOURCE_URL=jdbc:postgresql://quarkusDB:5432/myDB
+      - QUARKUS_MONGO_URL=mongodb://admin:admin@quarkusMongo:27017
+    ports:
+      - "8080:8080"  # the HTTP endpoint
+    depends_on:
+      quarkusDB:
+        condition: service_healthy
+      quarkusMongo:
+        condition: service_started
+    networks:
+      - internal
+
+  quarkusDB:
+    image: "postgres:15.1"
+    container_name: quarkusDB
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=myDB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d myDB"]
+      interval: 5s
+      timeout: 5s
+      retries: 6
+    ports:
+      - "5432:5432"
+    networks:
+      - internal
+
+  quarkusMongo:
+    image: mongo:6.0
+    container_name: mongoDB
+    restart: "no"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_ROOT_DATABASE: imse
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - internal
+
+  angularFrontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: vosseptum-frontend:latest
+    container_name: angularFrontend
+    ports:
+      - "9000:9000"
+    environment:
+      - BACKEND_SERVICE=quarkusService:8080/
+    depends_on:
+      - quarkusService
+    networks:
+      - internal
+
+networks:
+  internal:
+
+volumes:
+  mongodb_data_container:

@@ -1,0 +1,46 @@
+<toolbar title="Truthfulness Reports for article '{{shortDescription}}-{{articleNumber}}'"></toolbar>
+
+<div *ngIf="!shortDescription || !articleNumber">
+  Please select an article at your personal site first
+<!--  TODO: Allow article selection here-->
+</div>
+
+<div class="table-main-sizer" *ngIf="shortDescription && articleNumber">
+  <strong class="middle-text">
+    Recent Reports
+    <button (click)="addReportDialog()">Add</button>
+  </strong>
+  <table mat-table [dataSource]="reports" class="mat-elevation-z8">
+    <!--  <caption>Table of all Connections of the user</caption>-->
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="authors">
+      <th mat-header-cell *matHeaderCellDef> Authors </th>
+      <td mat-cell *matCellDef="let element">
+        <p *ngFor="let author of element.authors">
+          {{author.email}}
+        </p>
+        <p *ngIf="!element.authors">
+          (anonymous)
+        </p>
+      </td>
+    </ng-container>
+
+    <!-- Grade Column -->
+    <ng-container matColumnDef="grade">
+      <th mat-header-cell *matHeaderCellDef> Grade </th>
+      <td mat-cell *matCellDef="let element">{{element.grade}}</td>
+    </ng-container>
+
+    <!-- Content Column -->
+    <ng-container matColumnDef="content">
+      <th mat-header-cell *matHeaderCellDef> Content </th>
+      <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

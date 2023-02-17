@@ -1,0 +1,73 @@
+<h1 mat-dialog-title *ngIf="isOwnArticle && articleData.article.number">Edit Article "{{articleData.article.shortDescription}}-{{articleData.article.number}}"</h1>
+<h1 mat-dialog-title *ngIf="isOwnArticle && !articleData.article.number">Create Article</h1>
+<h1 mat-dialog-title *ngIf="!isOwnArticle">
+  View Article "{{articleData.article.shortDescription}}-{{articleData.article.number}}"
+<!--  <button mat-raised-button (click)="openReportDialog()" style="float: right;">Add Truthfulness Report</button>-->
+</h1>
+<div mat-dialog-content>
+  <h2 *ngIf="isOwnArticle">Content</h2>
+  <mat-form-field appearance="fill" class="modal-sizer" *ngIf="isOwnArticle">
+    <mat-label *ngIf="isOwnArticle">Edit Content</mat-label>
+    <textarea matInput cdkTextareaAutosize [(ngModel)]="articleData.article.content" *ngIf="isOwnArticle"></textarea>
+  </mat-form-field>
+  <h2 *ngIf="isOwnArticle">Topics</h2>
+  <mat-form-field class="modal-sizer" appearance="fill" *ngIf="isOwnArticle">
+    <mat-label>Topics</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Enter topics">
+      <mat-chip-row *ngFor="let topic of articleData.article.topics"
+                    (removed)="removeTopic(topic)"
+                    [editable]="false">
+        {{topic.subject}}
+        <button matChipRemove [attr.aria-label]="'remove ' + topic" *ngIf="isOwnArticle">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+      <input placeholder="New Topic...(ENTER)"
+             [matChipInputFor]="chipGrid"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="false"
+             (matChipInputTokenEnd)="addTopic($event)"/>
+    </mat-chip-grid>
+  </mat-form-field>
+  <div *ngIf="!isOwnArticle" class="modal-sizer">
+    <h2>Content</h2>
+    <p>{{articleData.article.content}}</p>
+    <h2>Topics</h2>
+    <mat-chip-listbox aria-label="Topic selection" *ngFor="let topic of articleData.article.topics" class="modal-sizer">
+      <mat-chip-option selectable="false">{{topic.subject}}</mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+  <h2 *ngIf="isOwnArticle">Anonymous? (Note that anonymous articles cannot be edited and only be found via topics)</h2>
+  <section class="selection-section" *ngIf="isOwnArticle">
+    <mat-checkbox class="checkbox-margin" [(ngModel)]="articleData.article.anonymous">Publish Anonymously</mat-checkbox>
+  </section>
+  <h2>Authors</h2>
+  <div *ngFor="let author of articleData.article.authors">
+    <p>
+      <button mat-icon-button (click)="removeAuthor(author)" [disabled]="!isOwnArticle" matTooltip="Remove Author">
+        <mat-icon aria-hidden="false" aria-label="remove icon" fontIcon="close" *ngIf="isOwnArticle"></mat-icon>
+        <mat-icon aria-hidden="false" aria-label="indicator icon" fontIcon="person" *ngIf="!isOwnArticle"></mat-icon>
+      </button>
+      {{author.email}}
+    </p>
+  </div>
+  <div *ngIf="isOwnArticle">
+    <mat-form-field appearance="fill" style="padding-right: 10px">
+      <mat-label>Add journalist</mat-label>
+      <mat-select [(ngModel)]="selectedJournalistToAdd" name="connection">
+        <mat-option *ngFor="let connection of articleData.connections" [value]="connection">{{connection.email}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button (click)="addJournalistToAuthors()">Add</button>
+  </div>
+  <h2 *ngIf="isOwnArticle && !articleData.article.shortDescription">Short Description</h2>
+  <mat-form-field appearance="fill" class="small-modal-sizer" *ngIf="isOwnArticle && shortDescriptionNotSet">
+    <mat-label *ngIf="isOwnArticle">Add short description</mat-label>
+    <textarea matInput cdkTextareaAutosize [(ngModel)]="articleData.article.shortDescription" *ngIf="isOwnArticle" maxlength="128"></textarea>
+    <small class="float-end">Zeichen: {{articleData.article.shortDescription.length}}/128</small>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="articleData" cdkFocusInitial>Ok</button>
+</div>
