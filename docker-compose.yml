@@ -1,12 +1,12 @@
 version: "3.8"
 
 services:
-  quarkusService:
+  vosseptumApp:
     build:
       context: .
-      dockerfile: Dockerfile.jvm
-    image: vosseptum-backend:latest
-    container_name: quarkusService
+      dockerfile: Dockerfile
+    image: vosseptum:latest
+    container_name: vosseptum
     environment:
       - QUARKUS_DATASOURCE_URL=jdbc:postgresql://quarkusDB:5432/myDB
       - QUARKUS_MONGO_URL=mongodb://admin:admin@quarkusMongo:27017
@@ -49,21 +49,6 @@ services:
       MONGO_INITDB_ROOT_DATABASE: imse
     volumes:
       - mongodb_data_container:/data/db
-    networks:
-      - internal
-
-  angularFrontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    image: vosseptum-frontend:latest
-    container_name: angularFrontend
-    ports:
-      - "9000:9000"
-    environment:
-      - BACKEND_SERVICE=quarkusService:8080/
-    depends_on:
-      - quarkusService
     networks:
       - internal
 
