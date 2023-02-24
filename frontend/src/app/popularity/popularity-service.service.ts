@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class PopularityService {
 
-  private readonly hostURL = 'http://localhost:8080'
+  private readonly hostURL = `${window.location.origin}`;
   private readonly impactURL = `${this.hostURL}/data/mostImpactful`;
 
   constructor(private http: HttpClient) { }

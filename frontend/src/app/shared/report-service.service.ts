@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class ReportService {
 
-  private readonly hostURL = 'http://localhost:8080'
+  private readonly hostURL = `${window.location.origin}`;
 
   constructor(private http: HttpClient) { }
 

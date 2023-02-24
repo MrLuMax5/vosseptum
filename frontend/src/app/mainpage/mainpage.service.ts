@@ -8,7 +8,7 @@ import {FillResponse} from "../../modules/vosssmolina-types";
 })
 export class MainpageService {
 
-  private readonly hostURL = 'http://localhost:8080'
+  private readonly hostURL = `${window.location.origin}`;
   private readonly fillURL = `${this.hostURL}/data/fill`;
   private readonly countURL = `${this.hostURL}/data/count`;
   private readonly migrationURL = `${this.hostURL}/migrate`;

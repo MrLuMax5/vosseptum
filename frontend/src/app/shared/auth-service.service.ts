@@ -10,7 +10,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class AuthService {
 
-  private readonly hostURL = 'http://localhost:8080'
+  private readonly hostURL = `${window.location.origin}`;
   private readonly loginURL = `${this.hostURL}/login`;
 
   constructor(private http: HttpClient,

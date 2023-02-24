@@ -76,6 +76,11 @@
 		</dependency>
 		<!--Others-->
 		<dependency>
+			<groupId>com.google.cloud.sql</groupId>
+			<artifactId>postgres-socket-factory</artifactId>
+			<version>${postgres-socket-factory.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>net.datafaker</groupId>
 			<artifactId>datafaker</artifactId>
 			<version>1.7.0</version>

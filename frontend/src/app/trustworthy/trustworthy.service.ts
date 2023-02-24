@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class TrustworthyService {
 
-  private readonly hostURL = 'http://localhost:8080'
+  private readonly hostURL = `${window.location.origin}`;
   private readonly trustURL = `${this.hostURL}/data/mostTrustworthies`;
 
   constructor(private http: HttpClient) { }

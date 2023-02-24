@@ -1,10 +1,46 @@
 # vosseptum Project
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Overview
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This project is used as a learning project for Dev-Ops methods, Cloud-nativity and Deployment.
+It is not thought to have a particularly pretty frontend, or to be used in practice.
+It does, however, combine and include some functionalities that are of interest in the deployment of software:
 
-## Running the application in dev mode
+1. An Angular Frontend
+2. A [Quarkus](https://quarkus.io/) Backend
+3. Database-Connections
+
+Quarkus is used in order to explore its strengths and weaknesses compared to Spring.
+
+### History
+
+Originally, as to be found in the initial commit, this project was build with docker-compose and consisted of 4 distinct images:
+
+1. An Angular Frontend image
+2. A Quarkus Backend image
+3. A Postgres image
+4. A MongoDB image
+
+After building the project using `docker compose up`, 4 containers were started, each on their own port, and an end-user was
+able to interact with the website via port _9000_, while the backend sat on port _8080_.
+The initial project also used two database-connections and different paradigms (Postgres and Mongo), mainly to explore
+the differences between those paradigms and how a transition from one to the other would feel like.
+
+However, the focus of this project shifted away from databases to exploring the Cloud, 
+which is why I decided to remove the MongoDB-integration in order to concentrate on Google's [CloudSQL](https://cloud.google.com/sql) functionality.
+
+Now, instead of 4 distinct images, the build only uses 1: An [uber-jar](https://blog.payara.fish/what-is-a-java-uber-jar) gets created that contains both the backend-services
+and the frontend-code, and the database is not set up on its own but instead connected to a Cloud-hosted database.
+It has to be mentioned that Quarkus offers the neat possibilities of
+
+* Using different [profiles](https://antoniogoncalves.org/2019/11/07/configuring-a-quarkus-application-with-profiles/) for production and development
+* [Dev Services](https://quarkus.io/guides/datasource#dev-services) for ad-hoc, zero-config, containerized databases
+
+This allows me to deploy the project using the connection to a Cloud-hosted database, while development is fast
+with a local on-demand db.
+This is currently necessary, because a bug exists where it is not possible to use Postgres Socket Factory in dev mode (see [here](https://github.com/quarkusio/quarkus/issues/15782)).
+
+## Building, Running, Packaging
 
 You can run your application in dev mode that enables live coding using:
 
@@ -12,51 +48,23 @@ You can run your application in dev mode that enables live coding using:
 ./mvnw compile quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
 The application can be packaged using:
 
 ```shell script
 ./mvnw package
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+The application, packaged as an _uber-jar_, is now runnable using `java -jar service/target/*-runner.jar`.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+### Deploying in the Cloud
 
-If you want to build an _über-jar_, execute the following command:
+1. Create a Google Cloud Account, Cloud-SQL Postgres
+2. Build the docker-image via Google Cloud Build, by using the Dockerfile
+3. Deploy the image that is found in your Container Registry. Remember to set the environment variables for the application.properties
+4. It is easiest to deploy the application to Cloud Run. They even offer some computational resources for free. Here, you can enable the Cloud SQL API for direct connection.
 
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+## Useful Resources
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/vosssmolina-1.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### RESTEasy Reactive
-
-Easily start your Reactive RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+* [Quarkus with Google Cloud](https://quarkus.io/guides/deploying-to-google-cloud)
+* [Quarkus uber-jar with Maven](https://quarkus.io/guides/maven-tooling#uber-jar-maven)
+* [Create and connect to Google Cloud SQL](https://cloud.google.com/sql/docs/postgres/connect-instance-auth-proxy)
